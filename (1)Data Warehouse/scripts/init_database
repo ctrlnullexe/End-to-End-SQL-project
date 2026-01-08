@@ -1,1 +1,31 @@
+/*
+=================================================
+Database and Schemas
+=================================================
+Purpose:
+This initializes a new database named 'DWH' after checking if it already exists. If it exists, it will be dropped and recreated.
+This script comes with three schemas: 'bronze', 'silver', and 'gold'.
+*/
+USE master;
+GO
+-- Drop & recreate 'DWH' database
+IF EXISTS (SELECT 1 FROM sys.databases WHERE name = 'DWH')
+BEGIN
+	ALTER DATABASE DWH_SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+	DROP DATABASE DWH;
+END;
+GO
 
+-- 'DWH' database
+CREATE DATABASE DWH;
+GO
+USE DWH;
+GO
+
+-- Schemas
+CREATE SCHEMA bronze;
+GO
+CREATE SCHEMA silver;
+GO
+CREATE SCHEMA gold;
+GO
