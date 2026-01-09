@@ -1,7 +1,7 @@
 # Data Warehouse
 
+**Turn messy CSVs into clean, business-ready insights — built from scratch in SQL.**
 
-A **SQL data warehouse built from scratch**. Clean, practical, and shows I understand how raw data becomes business ready insights.
 
 Three layers: **Bronze → Silver → Gold**. Each has a role.
 
