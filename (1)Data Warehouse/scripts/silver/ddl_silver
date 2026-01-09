@@ -1,4 +1,5 @@
--- =====================================================================================
+/*
+=====================================================================================
  Script: ddl_silver
  Layer : Silver (Cleansed / Conformed)
 
@@ -25,6 +26,7 @@
    * Business rules and aggregations are deferred to the gold layer
    * Intended to serve as the trusted, reusable data foundation
 -- =====================================================================================
+*/
 
 -- ======================================================
 -- CRM Customer Information (Cleansed)
