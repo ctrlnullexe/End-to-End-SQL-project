@@ -35,7 +35,7 @@ Three layers: **Bronze → Silver → Gold**. Each has a role.
 
 ---
 
-## QA Cheat Sheet (Simplified)
+## Quality Check Cheat Sheet
 
 | Layer  | Table             | Key Checks                         | Why It Matters                  |
 |--------|-----------------|-----------------------------------|--------------------------------|
