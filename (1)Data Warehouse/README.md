@@ -1,7 +1,9 @@
 # Data Warehouse
-![SQL](https://img.shields.io/badge/Tech-SQL-blue) 
-![Bronze](https://img.shields.io/badge/Bronze-Raw-orange) 
-![Silver](https://img.shields.io/badge/Silver-Clean-green) 
+# SQL Data Warehouse Project
+
+![SQL](https://img.shields.io/badge/Tech-SQL-blue)
+![Bronze](https://img.shields.io/badge/Bronze-Raw-orange)
+![Silver](https://img.shields.io/badge/Silver-Clean-green)
 ![Gold](https://img.shields.io/badge/Gold-Business-ready-brightgreen)
 ![Status](https://img.shields.io/badge/Status-Working-brightgreen)
 
