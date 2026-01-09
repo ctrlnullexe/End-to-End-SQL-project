@@ -1,0 +1,50 @@
+/*
+=============================================================================================
+Gold Layer Quality Checks
+=============================================================================================
+Purpose:
+  - Make sure the Gold layer actually makes sense.
+  - Verify uniqueness, integrity, and relationships across dimensions and fact tables.
+
+What it checks:
+  1. Surrogate keys in dimension tables are unique.
+  2. Fact table references valid dimension keys.
+  3. Relationships between fact and dimension tables are consistent.
+
+Usage:
+  - Run this **after loading Silver → Gold**.
+  - Investigate any duplicates or missing references immediately.
+=============================================================================================
+*/
+
+-- ============================================================
+-- Check uniqueness: gold.dim_customers.customer_key
+-- ============================================================
+SELECT
+	customer_key,
+	COUNT(*) AS duplicate_count
+FROM gold.dim_customers
+GROUP BY customer_key
+HAVING COUNT(*) > 1;  -- should return 0 rows
+
+-- ============================================================
+-- Check uniqueness: gold.dim_products.product_key
+-- ============================================================
+SELECT
+	product_key,
+	COUNT(*) AS duplicate_count
+FROM gold.dim_products
+GROUP BY product_key
+HAVING COUNT(*) > 1;  -- should return 0 rows
+
+-- ============================================================
+-- Check referential integrity: gold.fact_sales
+-- ============================================================
+-- Make sure every fact row has a valid customer and product
+SELECT *
+FROM gold.fact_sales f
+LEFT JOIN gold.dim_customers c
+  ON c.customer_key = f.customer_key
+LEFT JOIN gold.dim_products p
+  ON p.product_key = f.product_key
+WHERE p.product_key IS NULL OR c.customer_key IS NULL;  -- should return 0 rows
