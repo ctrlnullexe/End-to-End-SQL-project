@@ -1,11 +1,11 @@
 # Data Warehouse
-# SQL Data Warehouse Project
 
 ![SQL](https://img.shields.io/badge/Tech-SQL-blue)
 ![Bronze](https://img.shields.io/badge/Bronze-Raw-orange)
 ![Silver](https://img.shields.io/badge/Silver-Clean-green)
 ![Gold](https://img.shields.io/badge/Gold-Business-ready-brightgreen)
 ![Status](https://img.shields.io/badge/Status-Working-brightgreen)
+
 
 A **SQL data warehouse built from scratch**. Clean, practical, and shows I understand **how raw data becomes business-ready insights**.
 
