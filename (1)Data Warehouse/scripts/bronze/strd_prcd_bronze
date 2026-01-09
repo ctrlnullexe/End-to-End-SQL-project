@@ -1,30 +1,30 @@
 -- =====================================================================================
--- Stored Procedure: bronze.load_bronze
--- Layer           : Bronze (Raw / Landing Zone)
---
--- Purpose:
---   Loads raw source data from external CSV files into the bronze schema.
---   This procedure represents the ingestion entry point for the data warehouse.
---
--- What This Procedure Does:
---   * Truncates existing bronze tables to ensure idempotent reloads
---   * Uses BULK INSERT for high-performance ingestion from flat files
---   * Captures and logs load durations for basic observability
---
--- Design Notes:
---   * No transformations or data quality checks are applied at this stage
---   * Assumes source files are trusted and schema-compatible
---   * Optimized for simplicity and speed in development environments
---
--- Parameters:
---   None
---
--- Execution Example:
---   EXEC bronze.load_bronze;
---
--- Warnings:
---   * Destructive operation — existing bronze data will be overwritten
---   * File paths are environment-specific and should be externalized in production
+ Stored Procedure: bronze.load_bronze
+ Layer           : Bronze (Raw / Landing Zone)
+
+ Purpose:
+   Loads raw source data from external CSV files into the bronze schema.
+   This procedure represents the ingestion entry point for the data warehouse.
+
+ What This Procedure Does:
+   * Truncates existing bronze tables to ensure idempotent reloads
+   * Uses BULK INSERT for high-performance ingestion from flat files
+   * Captures and logs load durations for basic observability
+
+ Design Notes:
+   * No transformations or data quality checks are applied at this stage
+   * Assumes source files are trusted and schema-compatible
+   * Optimized for simplicity and speed in development environments
+
+ Parameters:
+   None
+
+ Execution Example:
+   EXEC bronze.load_bronze;
+
+ Warnings:
+   * Destructive operation — existing bronze data will be overwritten
+   * File paths are environment-specific and should be externalized in production
 -- =====================================================================================
 
 CREATE OR ALTER PROCEDURE bronze.load_bronze
