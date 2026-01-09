@@ -1,31 +1,51 @@
 /*
-=================================================
-Database and Schemas
-=================================================
-Purpose:
-This initializes a new database named 'DWH' after checking if it already exists. If it exists, it will be dropped and recreated.
-This script comes with three schemas: 'bronze', 'silver', and 'gold'.
+=====================================================================================
+ Script: init_database
+ Purpose:
+   Initializes the Data Warehouse environment by creating a fresh DWH database
+   along with its logical data layers (bronze, silver, gold).
+
+ Behavior:
+   * Checks if the 'DWH' database already exists
+   * Forces single-user mode to safely terminate active connections
+   * Drops and recreates the database to ensure a clean, repeatable setup
+
+ Design Notes:
+   * Intended for development and learning environments
+   * Destructive operation — ALL existing data will be lost
+   * Follows the Medallion Architecture pattern:
+       - bronze : raw, unprocessed source data
+       - silver : cleaned, standardized, validated data
+       - gold   : analytics-ready, business-level aggregates
+=====================================================================================
 */
+
 USE master;
 GO
--- Drop & recreate 'DWH' database
+
+-- Drop and recreate the 'DWH' database if it already exists
 IF EXISTS (SELECT 1 FROM sys.databases WHERE name = 'DWH')
 BEGIN
-	ALTER DATABASE DWH_SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-	DROP DATABASE DWH;
+    -- Force single-user mode to terminate active sessions before dropping
+    ALTER DATABASE DWH SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE DWH;
 END;
 GO
 
--- 'DWH' database
+-- Create the 'DWH' database
 CREATE DATABASE DWH;
 GO
+
+-- Switch context to the newly created database
 USE DWH;
 GO
 
--- Schemas
+-- Create schemas representing each layer of the data warehouse
 CREATE SCHEMA bronze;
 GO
+
 CREATE SCHEMA silver;
 GO
+
 CREATE SCHEMA gold;
 GO
