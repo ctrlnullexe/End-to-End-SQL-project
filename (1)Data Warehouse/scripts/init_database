@@ -1,4 +1,5 @@
--- =====================================================================================
+/*
+=====================================================================================
  Script: init_database
  Purpose:
    Initializes the Data Warehouse environment by creating a fresh DWH database
@@ -16,7 +17,8 @@
        - bronze : raw, unprocessed source data
        - silver : cleaned, standardized, validated data
        - gold   : analytics-ready, business-level aggregates
--- =====================================================================================
+=====================================================================================
+*/
 
 USE master;
 GO
