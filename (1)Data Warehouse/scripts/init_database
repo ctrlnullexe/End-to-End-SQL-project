@@ -1,21 +1,21 @@
 -- =====================================================================================
--- Script: init_database
--- Purpose:
---   Initializes the Data Warehouse environment by creating a fresh DWH database
---   along with its logical data layers (bronze, silver, gold).
---
--- Behavior:
---   * Checks if the 'DWH' database already exists
---   * Forces single-user mode to safely terminate active connections
---   * Drops and recreates the database to ensure a clean, repeatable setup
---
--- Design Notes:
---   * Intended for development and learning environments
---   * Destructive operation — ALL existing data will be lost
---   * Follows the Medallion Architecture pattern:
---       - bronze : raw, unprocessed source data
---       - silver : cleaned, standardized, validated data
---       - gold   : analytics-ready, business-level aggregates
+ Script: init_database
+ Purpose:
+   Initializes the Data Warehouse environment by creating a fresh DWH database
+   along with its logical data layers (bronze, silver, gold).
+
+ Behavior:
+   * Checks if the 'DWH' database already exists
+   * Forces single-user mode to safely terminate active connections
+   * Drops and recreates the database to ensure a clean, repeatable setup
+
+ Design Notes:
+   * Intended for development and learning environments
+   * Destructive operation — ALL existing data will be lost
+   * Follows the Medallion Architecture pattern:
+       - bronze : raw, unprocessed source data
+       - silver : cleaned, standardized, validated data
+       - gold   : analytics-ready, business-level aggregates
 -- =====================================================================================
 
 USE master;
