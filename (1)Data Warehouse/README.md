@@ -35,6 +35,19 @@ Three layers: **Bronze → Silver → Gold**. Each has a role.
 
 ---
 
+## QA Cheat Sheet (Simplified)
+
+| Layer  | Table             | Key Checks                         | Why It Matters                  |
+|--------|-----------------|-----------------------------------|--------------------------------|
+| Silver | Customers        | PK duplicates/nulls, spaces, gender/marital status | Clean, reliable for joins |
+| Silver | Products         | PK duplicates/nulls, cost ≥ 0, date order | Accurate product info        |
+| Silver | Sales Details    | Invalid dates, sales ≠ qty*price | Sales facts are consistent    |
+| Gold   | dim_customers    | Surrogate key uniqueness          | Dimension table integrity      |
+| Gold   | dim_products     | Surrogate key uniqueness          | Products are unique            |
+| Gold   | fact_sales       | FK links to dimensions            | Facts linked correctly         |
+
+---
+
 ## Why it matters
 
 - Shows **full ETL understanding**.  
