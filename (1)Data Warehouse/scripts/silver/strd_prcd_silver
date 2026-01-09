@@ -1,4 +1,5 @@
--- =====================================================================================
+/*
+=====================================================================================
  Stored Procedure: silver.load_silver
  Layer           : Silver (Cleansed / Conformed)
 
@@ -27,7 +28,8 @@
  Notes:
    * Intended for development and learning environments
    * In production, row counts and error logs would be persisted to audit tables
--- =====================================================================================
+=====================================================================================
+*/
 
 CREATE OR ALTER PROCEDURE silver.load_silver
 AS
