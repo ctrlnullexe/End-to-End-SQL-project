@@ -1,4 +1,4 @@
-# Data Warehouse
+# Data Warehouse (Phase 1 of the project)
 
 **Turn messy CSVs into clean, business-ready insights, built from scratch in SQL.**
 
