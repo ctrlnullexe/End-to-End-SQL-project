@@ -1,6 +1,6 @@
 ## QA Cheat Sheet – Silver & Gold Layers
 
-| Layer  | Table                  | What We Check                                     | Why It Matters |
+| Layer  | Table                  | What We're Checking                                     | Why It Matters |
 |--------|-----------------------|--------------------------------------------------|----------------|
 | Silver | crm_cust_info          | PK duplicates/nulls, unwanted spaces, gender & marital status standardization | Clean customer data, no duplicates, ready for joins |
 | Silver | crm_prd_info           | PK duplicates/nulls, negative/null cost, unwanted spaces, product line consistency, date order | Products are accurate & reliable for analytics |
