@@ -1,6 +1,6 @@
 # Data Warehouse
 
-**Turn messy CSVs into clean, business-ready insights — built from scratch in SQL.**
+**Turn messy CSVs into clean, business-ready insights, built from scratch in SQL.**
 
 
 Three layers: **Bronze → Silver → Gold**. Each has a role.
