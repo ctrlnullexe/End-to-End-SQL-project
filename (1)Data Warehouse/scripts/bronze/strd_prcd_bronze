@@ -1,4 +1,5 @@
--- =====================================================================================
+/*
+=====================================================================================
  Stored Procedure: bronze.load_bronze
  Layer           : Bronze (Raw / Landing Zone)
 
@@ -25,7 +26,8 @@
  Warnings:
    * Destructive operation — existing bronze data will be overwritten
    * File paths are environment-specific and should be externalized in production
--- =====================================================================================
+=====================================================================================
+*/
 
 CREATE OR ALTER PROCEDURE bronze.load_bronze
 AS
