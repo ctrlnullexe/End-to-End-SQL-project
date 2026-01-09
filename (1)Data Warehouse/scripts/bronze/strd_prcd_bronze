@@ -1,62 +1,100 @@
-/*
-=========================================================================================
-Stored Procedure: Load Bronze Layer (Source -> Bronze)
-=========================================================================================
-Purpose:
-This stored procedured loads data in the 'bronze' schema from external CSV files.
-This will:
-- Truncate the bronze tables before loading data.
-- Use the BULK INSERT query to load data quickly from CSV files to the bronze schema.
+-- =====================================================================================
+-- Stored Procedure: bronze.load_bronze
+-- Layer           : Bronze (Raw / Landing Zone)
+--
+-- Purpose:
+--   Loads raw source data from external CSV files into the bronze schema.
+--   This procedure represents the ingestion entry point for the data warehouse.
+--
+-- What This Procedure Does:
+--   * Truncates existing bronze tables to ensure idempotent reloads
+--   * Uses BULK INSERT for high-performance ingestion from flat files
+--   * Captures and logs load durations for basic observability
+--
+-- Design Notes:
+--   * No transformations or data quality checks are applied at this stage
+--   * Assumes source files are trusted and schema-compatible
+--   * Optimized for simplicity and speed in development environments
+--
+-- Parameters:
+--   None
+--
+-- Execution Example:
+--   EXEC bronze.load_bronze;
+--
+-- Warnings:
+--   * Destructive operation — existing bronze data will be overwritten
+--   * File paths are environment-specific and should be externalized in production
+-- =====================================================================================
 
-Parameters:
-N/A (This stored procedure does not return any values, nor accept any parameters.
-
-Using Example:
-  EXEC bronze.load_bronze;
-=========================================================================================
-*/
-
-CREATE OR ALTER PROCEDURE bronze.load_bronze AS
+CREATE OR ALTER PROCEDURE bronze.load_bronze
+AS
 BEGIN
-	DECLARE @start_time DATETIME, @end_time DATETIME, @batch_start_time DATETIME, @batch_end_time DATETIME;
-	BEGIN TRY
-		SET @batch_start_time = GETDATE();
-		PRINT '========================================';
-		PRINT 'Loading Bronze Layer';
-		PRINT '========================================';
+    DECLARE 
+        @start_time        DATETIME,
+        @end_time          DATETIME,
+        @batch_start_time  DATETIME,
+        @batch_end_time    DATETIME;
 
-		PRINT '----------------------------------------';
-		PRINT 'LOADING CRM Tables';
-		PRINT '----------------------------------------';
+    BEGIN TRY
+        -- Track overall batch execution start time
+        SET @batch_start_time = GETDATE();
 
-		SET @start_time = GETDATE();
-		PRINT '>> Truncating Table: bronze.crm_cust_info';
-		TRUNCATE TABLE bronze.crm_cust_info;
-		PRINT '>> Inserting Data: bronze.crm_cust_info';
-		BULK INSERT bronze.crm_cust_info
-		FROM 'C:\temp\cust_info.csv'
-		WITH (
-			FIRSTROW = 2,
-			FIELDTERMINATOR = ',',
-			TABLOCK
-		);
-		SET @end_time = GETDATE();
-		PRINT '>> Load Duration: ' + CAST(DATEDIFF(second,@start_time,@end_time) AS NVARCHAR) + ' seconds';
+        PRINT '========================================';
+        PRINT 'Loading Bronze Layer';
+        PRINT '========================================';
 
-		PRINT '-------------------';
+        -- =====================================================
+        -- Load CRM Source Tables
+        -- =====================================================
+        PRINT '----------------------------------------';
+        PRINT 'LOADING CRM Tables';
+        PRINT '----------------------------------------';
 
-		SET @start_time = GETDATE();
-		PRINT '>> Truncating Table: bronze.crm_prd_info';
-		TRUNCATE TABLE bronze.crm_prd_info;
-		PRINT '>> Inserting Data: bronze.crm_prd_info';
-		BULK INSERT bronze.crm_prd_info
-		FROM 'C:\temp\prd_info.csv'
-		WITH(
-			FIRSTROW = 2,
-			FIELDTERMINATOR = ',',
-			TABLOCK
-		);
-		SET @end_time = GETDATE();
-		PRINT '>> Load Duration: ' + CAST(DATEDIFF(second,@start_time,@end_time) AS NVARCHAR) + ' seconds';
-		
-		PRINT '-------------------';
+        -- ----------------------------
+        -- CRM Customer Information
+        -- ----------------------------
+        SET @start_time = GETDATE();
+
+        PRINT '>> Truncating Table: bronze.crm_cust_info';
+        TRUNCATE TABLE bronze.crm_cust_info;
+
+        PRINT '>> Inserting Data: bronze.crm_cust_info';
+        BULK INSERT bronze.crm_cust_info
+        FROM 'C:\temp\cust_info.csv'
+        WITH (
+            FIRSTROW = 2,              -- Skip CSV header row
+            FIELDTERMINATOR = ',',     -- Comma-delimited file
+            TABLOCK                    -- Improve bulk load performance
+        );
+
+        SET @end_time = GETDATE();
+        PRINT '>> Load Duration: ' 
+              + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) 
+              + ' seconds';
+
+        PRINT '-------------------';
+
+        -- ----------------------------
+        -- CRM Product Information
+        -- ----------------------------
+        SET @start_time = GETDATE();
+
+        PRINT '>> Truncating Table: bronze.crm_prd_info';
+        TRUNCATE TABLE bronze.crm_prd_info;
+
+        PRINT '>> Inserting Data: bronze.crm_prd_info';
+        BULK INSERT bronze.crm_prd_info
+        FROM 'C:\temp\prd_info.csv'
+        WITH (
+            FIRSTROW = 2,
+            FIELDTERMINATOR = ',',
+            TABLOCK
+        );
+
+        SET @end_time = GETDATE();
+        PRINT '>> Load Duration: ' 
+              + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) 
+              + ' seconds';
+
+        PRINT '-------------------';
