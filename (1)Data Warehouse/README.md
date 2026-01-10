@@ -1,35 +1,35 @@
 # Data Warehouse (Phase 1)
 
-Turn messy CSVs into clean, business-ready insights — built from scratch in SQL.
+Turn messy CSVs into clean, business ready insights, built from scratch in SQL.
 
 ---
 
 ## Layers
 
 ### 🥉 Bronze (Raw Data)
-- Original CSVs and ERP/CRM exports.
+- CSVs, ERP exports, CRM tables.
 - May have duplicates, nulls, messy codes.
 - Purpose: Keep raw source intact as fallback.
 
 ### 🥈 Silver (Clean & Trusted)
-- Deduplicated, trimmed, standardized.
-- Dates fixed, codes normalized, nulls handled.
+- Deduplicated, fix dates, trimmed, standardized.
+- Add 'dwh_create_date' for tracking.
 - Purpose: Reliable, clean tables ready for analysis.
 
 ### 🥇 Gold (Business Ready)
 - Star schema: **dimensions + fact table**.
-- Surrogate keys, joined tables, ready for dashboards.
+- Surrogate keys, clean names, joined tables, ready for dashboards.
 - Purpose: Analytics ready, plug and play.
 
 ---
 
 ## How it works
 
-1. `init_database.sql` → create DWH database + schemas  
-2. `ddl_bronze.sql` + `strd_prcd_bronze.sql` → load raw data  
-3. `ddl_silver.sql` + `strd_prcd_silver.sql` → clean & transform  
-4. `ddl_gold.sql` → create dimensions & fact tables  
-5. `qc_silver.sql` + `qc_gold.sql` → basic quality checks
+1. `init_database.sql` --> create DWH database + schemas  
+2. `ddl_bronze.sql` + `strd_prcd_bronze.sql` --> load raw data  
+3. `ddl_silver.sql` + `strd_prcd_silver.sql` --> clean & transform  
+4. `ddl_gold.sql` --> create dimensions & fact tables  
+5. `qc_silver.sql` + `qc_gold.sql` --> basic quality checks
 
 ---
 
