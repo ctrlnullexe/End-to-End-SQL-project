@@ -74,22 +74,7 @@ At no point does data skip a layer.
 
 ## Data Flow Diagram
 
-+----------------+
-| Bronze |
-| Raw / Source |
-+--------+-------+
-|
-v
-+----------------+
-| Silver |
-| Clean / Trusted|
-+--------+-------+
-|
-v
-+----------------+
-| Gold |
-| Business Ready |
-+----------------+
++----------------+ | Bronze | | Raw / Source | +--------+-------+ | v +----------------+ | Silver | | Clean / Trusted| +--------+-------+ | v +----------------+ | Gold | | Business Ready | +----------------+
 
 ---
 
