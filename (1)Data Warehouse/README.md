@@ -9,17 +9,17 @@ Three layers: **Bronze → Silver → Gold**. Each has a role.
 
 ## Layers
 
-### 🥉 Bronze – Raw Data
+### 🥉 Bronze (Raw Data)
 - CSVs, ERP exports, CRM tables.
 - Unprocessed. Messy. Duplicates possible.
 - Purpose: Keep the original source intact. Always a fallback.
 
-### 🥈 Silver – Clean & Conformed
+### 🥈 Silver (Clean & Conformed)
 - Deduplicate, fix dates, standardize codes, trim spaces.
 - Add `dwh_create_date` for tracking.
 - Purpose: Trusted layer for transformations and joins.
 
-### 🥇 Gold – Business-ready
+### 🥇 Gold (Business-ready)
 - Star schema: **dimensions + fact table**.
 - Surrogate keys, clean names, joined tables.
 - Purpose: Analytics-ready. Plug into dashboards, reports, or models.
