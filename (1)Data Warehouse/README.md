@@ -11,8 +11,8 @@ Three layers: **Bronze → Silver → Gold**. Each has a role.
 
 ### 🥉 Bronze (Raw Data)
 - CSVs, ERP exports, CRM tables.
-- Unprocessed. Messy. Duplicates possible.
-- Purpose: Keep the original source intact. Always a fallback.
+- Unprocessed, messy, possible duplicates.
+- Purpose: Keeps the original source intact. Always a fallback.
 
 ### 🥈 Silver (Clean & Conformed)
 - Deduplicate, fix dates, standardize codes, trim spaces.
@@ -22,7 +22,7 @@ Three layers: **Bronze → Silver → Gold**. Each has a role.
 ### 🥇 Gold (Business-ready)
 - Star schema: **dimensions + fact table**.
 - Surrogate keys, clean names, joined tables.
-- Purpose: Analytics-ready. Plug into dashboards, reports, or models.
+- Purpose: Analytics ready. Plug into dashboards, reports, or models.
 
 ---
 
