@@ -33,7 +33,7 @@ Turn messy CSVs into clean, business-ready insights — built from scratch in SQ
 
 ---
 
-## Quality Check Cheat Sheet (Simplified)
+## Quality Check Cheat Sheet
 
 | Layer  | Table             | Key Checks                         | Why It Matters                  |
 |--------|-----------------|-----------------------------------|--------------------------------|
