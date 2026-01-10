@@ -57,7 +57,7 @@ Three layers: **Bronze → Silver → Gold**. Each has a role.
 
 ---
 
-## Quick Reference
+## Quick reference
 
 ---
 
@@ -84,6 +84,32 @@ Three layers: **Bronze → Silver → Gold**. Each has a role.
 - **Bronze:** Original, messy CSVs & ERP/CRM tables.  
 - **Silver:** Deduped, standardized, cleaned.  
 - **Gold:** Star schema, ready for dashboards & analytics.  
+
+
+---
+
+## How data moves through the system
+
+This warehouse is designed to mirror how data flows in real systems.
+
+1. **Source data arrives** as CSVs (CRM, ERP).
+2. Data is loaded **as-is** into Bronze (no changes).
+3. Bronze data is **cleaned and standardized** in Silver.
+4. Silver data is **modeled for analytics** in Gold.
+5. Gold data is validated before use.
+
+Each layer has a single responsibility.
+
+---
+
+## What can go wrong (and how it’s handled)
+
+- Duplicate customers → handled in Silver using latest records
+- Invalid dates → converted to NULL
+- Incorrect sales values → recalculated using quantity × price
+- Orphan records → caught in Gold quality checks
+
+Quality checks act as guardrails before data is used.
 
 
 ---
