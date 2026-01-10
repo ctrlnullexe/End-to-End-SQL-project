@@ -19,7 +19,7 @@ Turn messy CSVs into clean, business-ready insights — built from scratch in SQ
 ### 🥇 Gold (Business Ready)
 - Star schema: **dimensions + fact table**.
 - Surrogate keys, joined tables, ready for dashboards.
-- Purpose: Analytics-ready, plug-and-play.
+- Purpose: Analytics ready, plug and play.
 
 ---
 
@@ -64,7 +64,7 @@ Turn messy CSVs into clean, business-ready insights — built from scratch in SQ
              v
     +----------------+
     |      Gold      |
-    | Business-Ready |
+    | Business Ready |
     +----------------+
 
 
