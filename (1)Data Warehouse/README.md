@@ -1,126 +1,192 @@
-# Data Warehouse (Phase 1 of the project)
+# Data Warehouse (Phase 1)
 
-**Turn messy CSVs into clean, business-ready insights, built from scratch in SQL.**
+**Turning messy CSVs into clean, business-ready data — built from scratch in SQL.**
 
+This project is a small but realistic **data warehouse** built to show how data actually moves:
+from raw files → trusted tables → analytics-ready models.
 
-Three layers: **Bronze → Silver → Gold**. Each has a role.
+Three layers. One clear flow.
+
+**Bronze → Silver → Gold**
 
 ---
 
-## Layers
+## The Layers (What each one does)
 
-### 🥉 Bronze (Raw Data)
+### 🥉 Bronze — Raw Data
 - CSVs, ERP exports, CRM tables.
-- Unprocessed, messy, possible duplicates.
-- Purpose: Keeps the original source intact. Always a fallback.
+- No cleaning. No assumptions.
+- Duplicates, bad dates, inconsistencies are expected.
 
-### 🥈 Silver (Clean & Conformed)
-- Deduplicate, fix dates, standardize codes, trim spaces.
-- Add `dwh_create_date` for tracking.
-- Purpose: Trusted layer for transformations and joins.
-
-### 🥇 Gold (Business ready)
-- Star schema: **dimensions + fact table**.
-- Surrogate keys, clean names, joined tables.
-- Purpose: Analytics ready. Plug into dashboards, reports, or models.
+**Purpose:**  
+Keep the original data untouched.  
+If something breaks downstream, Bronze is the source of truth.
 
 ---
 
-## How it works
+### 🥈 Silver — Clean & Conformed
+- Deduplication
+- Date fixes and validation
+- Standardized codes (gender, country, product lines)
+- Trim unwanted spaces
+- Business rules applied
+- `dwh_create_date` added for traceability
 
-1. **Init database** → creates `DWH` with bronze, silver, gold schemas.  
-2. **Load Bronze** → bulk insert CSVs into bronze tables.  
-3. **Load Silver** → ETL from bronze → silver (clean, dedupe, transform).  
-4. **Gold Views** → dim_customers, dim_products, fact_sales. Ready to query.
+**Purpose:**  
+Create a **trusted, clean layer** that can safely be joined and modeled.
 
----
-
-## Quality Check Cheat Sheet
-
-| Layer  | Table             | Key Checks                         | Why It Matters                  |
-|--------|-----------------|-----------------------------------|--------------------------------|
-| Silver | Customers        | PK duplicates/nulls, spaces, gender/marital status | Clean, reliable for joins |
-| Silver | Products         | PK duplicates/nulls, cost ≥ 0, date order | Accurate product info        |
-| Silver | Sales Details    | Invalid dates, sales ≠ qty*price | Sales facts are consistent    |
-| Gold   | dim_customers    | Surrogate key uniqueness          | Dimension table integrity      |
-| Gold   | dim_products     | Surrogate key uniqueness          | Products are unique            |
-| Gold   | fact_sales       | FK links to dimensions            | Facts linked correctly         |
+Silver is where data quality actually starts.
 
 ---
 
-## Why it matters
+### 🥇 Gold — Business Ready
+- Star schema design
+- Dimensions + fact table
+- Surrogate keys
+- Clean, readable column names
+- Built specifically for analytics and reporting
 
-- Shows **full ETL understanding**.  
-- Data traceable from raw → clean → business-ready.  
-- Layers separate so **raw data never gets corrupted**.  
-- Mini warehouse to practice real-world analytics, BI, or ML.
+**Purpose:**  
+This is the layer dashboards, reports, and models would query.
 
 ---
 
-## Quick reference
+## How It Works (End-to-End)
+
+1. **Initialize database**  
+   Creates the `DWH` database with `bronze`, `silver`, and `gold` schemas.
+
+2. **Load Bronze**  
+   Raw CSVs are bulk inserted exactly as received.
+
+3. **Transform to Silver**  
+   Bronze data is cleaned, standardized, and validated.
+
+4. **Build Gold Views**  
+   Data is modeled into:
+   - `dim_customers`
+   - `dim_products`
+   - `fact_sales`
+
+At no point does data skip a layer.
 
 ---
 
 ## Data Flow Diagram
-    +----------------+
-    |     Bronze     |
-    |  Raw / Source  |
-    +--------+-------+
-             |
-             v
-    +----------------+
-    |     Silver     |
-    | Clean / Trusted|
-    +--------+-------+
-             |
-             v
-    +----------------+
-    |      Gold      |
-    | Business Ready |
-    +----------------+
-    
 
-**Legend:**  
-- **Bronze:** Original, messy CSVs & ERP/CRM tables.  
-- **Silver:** Deduped, standardized, cleaned.  
-- **Gold:** Star schema, ready for dashboards & analytics.  
-
++----------------+
+| Bronze |
+| Raw / Source |
++--------+-------+
+|
+v
++----------------+
+| Silver |
+| Clean / Trusted|
++--------+-------+
+|
+v
++----------------+
+| Gold |
+| Business Ready |
++----------------+
 
 ---
 
-## How data moves through the system
 
-This warehouse is designed to mirror how data flows in real systems.
-
-1. **Source data arrives** as CSVs (CRM, ERP).
-2. Data is loaded **as-is** into Bronze (no changes).
-3. Bronze data is **cleaned and standardized** in Silver.
-4. Silver data is **modeled for analytics** in Gold.
-5. Gold data is validated before use.
-
-Each layer has a single responsibility.
+**Legend**
+- **Bronze:** Raw CSVs & ERP/CRM extracts
+- **Silver:** Cleaned, standardized, validated
+- **Gold:** Star schema for analytics
 
 ---
 
-## What can go wrong (and how it’s handled)
+## Quality Checks (Guardrails)
 
-- Duplicate customers → handled in Silver using latest records
-- Invalid dates → converted to NULL
-- Incorrect sales values → recalculated using quantity × price
-- Orphan records → caught in Gold quality checks
+Quality checks are not optional — they’re built into the process.
 
-Quality checks act as guardrails before data is used.
+### Silver Layer Checks
 
+| Table | What’s Checked | Why |
+|-----|---------------|-----|
+| Customers | Nulls, duplicate PKs, spaces, gender & marital status | Reliable joins |
+| Products | Nulls, duplicate PKs, negative cost, date order | Accurate product data |
+| Sales | Invalid dates, sales ≠ qty × price, null/negative values | Trustworthy metrics |
+| ERP Tables | Invalid dates, inconsistent categories | Clean reference data |
+
+---
+
+### Gold Layer Checks
+
+| Object | Check | Why |
+|------|------|-----|
+| dim_customers | Surrogate key uniqueness | Dimension integrity |
+| dim_products | Surrogate key uniqueness | Unique products |
+| fact_sales | FK links to dimensions | No orphan facts |
+
+If Gold fails checks, analytics stop.  
+Bad data is surfaced — not hidden.
+
+---
+
+## What Can Go Wrong (And How It’s Handled)
+
+- Duplicate customers  
+  → resolved in Silver using clean, conformed logic
+
+- Invalid or impossible dates  
+  → converted to NULL and flagged
+
+- Incorrect sales math  
+  → validated using quantity × price
+
+- Orphan fact records  
+  → caught during Gold integrity checks
+
+Each layer has **one responsibility**.  
+Problems are handled where they belong.
+
+---
+
+## Why This Project Matters
+
+This isn’t just SQL practice.
+
+It shows:
+- Understanding of **ETL flow**
+- Awareness of **data quality issues**
+- Proper **layered warehouse design**
+- Clean **fact & dimension modeling**
+- How raw data becomes **business-ready**
+
+This is how data works in real systems — just at a smaller scale.
 
 ---
 
 ## Usage
 
-1. Clone repo  
+1. Clone the repository  
 2. Run `init_database.sql`  
-3. Run `ddl_bronze.sql` → `strd_prcd_bronze.sql`  
-4. Run `ddl_silver.sql` → `strd_prcd_silver.sql`  
+3. Run Bronze scripts  
+   - `ddl_bronze.sql`
+   - `strd_prcd_bronze.sql`
+4. Run Silver scripts  
+   - `ddl_silver.sql`
+   - `strd_prcd_silver.sql`
 5. Run `ddl_gold.sql`  
-6. Query Gold views. Done.
+6. Query Gold views
 
+That’s it.
 
+---
+
+## What’s Next
+
+This warehouse is designed to be extended.
+
+Next phases will:
+- Add analytical use cases on top of Gold
+- Combine multiple projects into one end-to-end system
+- Show how data flows from ingestion → insight
+
+Solid fundamentals first. Everything builds from here.
